@@ -121,7 +121,7 @@ const zoomCamera = (direction) => {
     direction === 'in' ? camera.position.z += 0.1 : camera.position.z -= 0.1;
 }
 
-const planets = ['mercurymap.jpg', 'venusmap.jpg', 'world.jpg', 'mars.jpg', 'jupiter.jpg', 'saturn.jpg', 'uranus.jpg', 'neptune.jpg', 'brick.jpg'];
+const planets = ['mercurymap.jpg', 'venusmap.jpg', 'world.jpg', 'mars.jpg', 'jupiter.jpg', 'Saturn.jpg', 'uranus.jpg', 'neptune.jpg', 'brick.jpg'];
 let chosenPlanetPosition = planets.length;
 
 const getPlanet = () => {
