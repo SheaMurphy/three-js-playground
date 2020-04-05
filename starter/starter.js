@@ -1,4 +1,4 @@
-let scene, camera, renderer, shape;
+let scene, camera, renderer, shape, raycaster;
 
 let xRotation = 0;
 let yRotation = 0.005;
@@ -14,6 +14,10 @@ const init = () => {
     // initCube();
     initSphere();
 
+    // Click stuff
+    raycaster = new THREE.Raycaster();
+
+    // starting zoom
     camera.position.z = 10;
 }
 
@@ -58,6 +62,7 @@ const reset = () => {
     scene.remove(shape);
     initSphere();
     document.getElementById('planet-tag').innerHTML = 'Earth';
+    chosenPlanetPosition = 0;
 }
 
 const onWindowKeyPress = (e) => {
@@ -170,9 +175,53 @@ const togglePlanets = () => {
     updatePlanetTagHTML();
 }
 
+// let isMouseDown = false;
+// let mouseDownIntersects = false;
+// mouse = new THREE.Vector2();
+// let mouseX;
+// let mouseY;
+// let body = document.body;
+
+// const checkIntersect = () => {
+//     raycaster.setFromCamera(mouse, camera);
+//     var intersects = raycaster.intersectObject(shape);
+//     intersects.length > 0 ? mouseDownIntersects = true : mouseDownIntersects = false;
+//     console.log(mouseDownIntersects)
+// }
+
+// const handleMouseDown = (e) => {
+//     isMouseDown = true;
+//     mouseX = e.clientX;
+//     mouseY = e.clientY;
+// }
+
+// const handleMouseUp = () => {
+//     isMouseDown = false;
+//     rotatePlanet('stop')
+//     mouseX = 0;
+//     mouseY = 0;
+// }
+
+// const handleMouseMove = (e) => {
+//     mouse.x = e.clientX;
+//     mouse.y = e.clientY;
+//     checkIntersect();
+//     // mouseDownIntersects ? body.style.cursor = 'grab' : body.style.cursor = 'auto';
+
+//     if (isMouseDown && mouseDownIntersects) {
+//         if (e.clientX > mouseX) rotatePlanet('right');
+//         else if (e.clientX < mouseX) rotatePlanet('left');
+//         else if (e.clientY < mouseY) rotatePlanet('down');
+//         else if (e.clientY > mouseY) rotatePlanet('up');
+//         else rotatePlanet('stop')
+//     }
+// }
+
 window.addEventListener('resize', onWindowResize, false);
 window.addEventListener('keydown', onWindowKeyPress);
-
+// window.addEventListener('mousedown', handleMouseDown);
+// window.addEventListener('mouseup', handleMouseUp);
+// window.addEventListener('mousemove', handleMouseMove);
 
 init();
 animate();
