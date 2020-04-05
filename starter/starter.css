@@ -35,7 +35,6 @@ h2 {
 
 #planet-tag {
   position: absolute;
-  bottom: 10px;
   text-align: center;
   width: 150px;
   left: calc(50% - 75px);
