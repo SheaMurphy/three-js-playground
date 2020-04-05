@@ -62,7 +62,7 @@ const reset = () => {
     scene.remove(shape);
     initSphere();
     document.getElementById('planet-tag').innerHTML = 'Earth';
-    chosenPlanetPosition = 0;
+    chosenPlanetPosition = planets.length;
 }
 
 const onWindowKeyPress = (e) => {
