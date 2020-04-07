@@ -48,7 +48,7 @@ scene.add(mesh);
 scene.add(blockMesh);
 
 let light = new THREE.PointLight(0xFFFFFF, 1, 500);
-let lightPostions = [-100, 0, 50];
+let lightPostions = [-100, 0, 5];
 
 const setUpLight = () => {
     light.position.set(...lightPostions);
@@ -56,13 +56,34 @@ const setUpLight = () => {
 }
 
 const moveLight = () => {
-    if (lightPostions[0] < 0) {
-        lightPostions[0] += 1;
-        lightPostions[1] += 1;
-    } else if (lightPostions[0] < 100) {
-        lightPostions[0] += 1;
-        lightPostions[1] -= 1;
+
+    let x = lightPostions[0];
+    let y = lightPostions[1];
+
+    if (x >= -100 && x < 0 && y >= 0 && y < 100) {
+        x += 0.5;
+        y += 0.5;
+    } else if (x >= 0 && x < 100 && y <= 100 && y > 0) {
+        x += 0.5;
+        y -= 0.5;
+    } else if (x <= 100 && x > 0 && y <= 0 && y > -100) {
+        x -= 0.5;
+        y -= 0.5;
+    } else {
+        x -= 0.5;
+        y += 0.5;
     }
+
+    lightPostions[0] = x;
+    lightPostions[1] = y;
+
+    //     if (lightPostions[0] < 0) {
+    //         lightPostions[0] += 1;
+    //         lightPostions[1] += 1;
+    //     } else if (lightPostions[0] < 100) {
+    //         lightPostions[0] += 1;
+    //         lightPostions[1] -= 1;
+    // }
 }
 
 // Recursive function redraws every time screen is refreshed (around 60 frames per second)
