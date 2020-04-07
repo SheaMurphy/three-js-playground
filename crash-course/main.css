@@ -9,6 +9,23 @@ body {
   width: 100vh;
 }
 
+#rabbit {
+  height: 70px;
+  width: 50px;
+  position: absolute;
+  top: 66vh;
+  left: -50px;
+  background-image: url("rabbit.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  /* border: solid red 2px; */
+}
+
+.rabbitLoad {
+  transition: left 2s ease-in 3s;
+}
+
 canvas {
   display: block;
 }
