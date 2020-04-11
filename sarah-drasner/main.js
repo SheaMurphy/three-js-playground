@@ -5,9 +5,10 @@ const init = () => {
     // RENDERER
     renderer = new THREE.WebGLRenderer({
         canvas: document.getElementById('canvas'),
-        antialias: true
+        antialias: true,
+        alpha: true
     });
-    renderer.setClearColor(0xe5e5e5);
+    // renderer.setClearColor(0xe5e5e5);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(width, height);
 
@@ -106,15 +107,27 @@ const initBalloon = () => {
     const topExtra = 8.5;
 
     balloonTop.position.y += 18.5;
-    balloonBottom.position.y += 10;
-    basket.position.y -= 10;
+    balloonBottom.position.y += 12;
+    basket.position.y -= 4;
 
-
-    scene.add(basket);
-    scene.add(balloonBottom);
-    scene.add(balloonTop);
 
     wholeBalloon = { balloonBottom, balloonTop, basket };
+
+    for (const shape in wholeBalloon) {
+        wholeBalloon[shape].scale.set(0.75, 0.75, 0.75);
+
+        // wholeBalloon[shape].position.x -= 85;
+
+    }
+
+    setTimeout(() => {
+        scene.add(basket);
+        scene.add(balloonBottom);
+        scene.add(balloonTop);
+        render();
+    }, 200)
+
+
 }
 
 const moveBalloon = (direction) => {
@@ -123,26 +136,27 @@ const moveBalloon = (direction) => {
             for (const shape in wholeBalloon) {
                 wholeBalloon[shape].position.x -= 1;
             }
+            render();
             break;
 
         case 'right':
             for (const shape in wholeBalloon) {
                 wholeBalloon[shape].position.x += 1;
             }
+            render();
             break;
         case 'up':
             for (const shape in wholeBalloon) {
                 wholeBalloon[shape].position.y += 1;
             }
+            render();
             break;
         case 'down':
             for (const shape in wholeBalloon) {
-                wholeBalloon[shape].position.x -= 1;
+                wholeBalloon[shape].position.y -= 1;
             }
+            render();
             break;
-
-
-
         default:
             break;
 
