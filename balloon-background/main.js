@@ -134,26 +134,26 @@ const moveBalloon = (direction) => {
     switch (direction) {
         case 'left':
             for (const shape in wholeBalloon) {
-                wholeBalloon[shape].position.x -= 0.2;
+                wholeBalloon[shape].translateX(-0.2);
             }
             render();
             break;
 
         case 'right':
             for (const shape in wholeBalloon) {
-                wholeBalloon[shape].position.x += 0.2;
+                wholeBalloon[shape].translateX(0.2);
             }
             render();
             break;
         case 'up':
             for (const shape in wholeBalloon) {
-                wholeBalloon[shape].position.y += 0.2;
+                wholeBalloon[shape].translateY(0.2);
             }
             render();
             break;
         case 'down':
             for (const shape in wholeBalloon) {
-                wholeBalloon[shape].position.y -= 0.2;
+                wholeBalloon[shape].translateY(0.2);
             }
             render();
             break;
@@ -168,9 +168,14 @@ const animateBalloon = () => {
         moveBalloon('right');
         setTimeout(animateBalloon, 20)
         for (const shape in wholeBalloon) {
-            wholeBalloon[shape].position.z -= 0.05;
+            wholeBalloon[shape].translateZ(-0.05);
         }
     }
+    // else {
+    //     for (const shape in wholeBalloon) {
+    //         wholeBalloon[shape].translateX(-500);
+    //     }
+    // }
 }
 
 const handleKeyDown = (e) => {

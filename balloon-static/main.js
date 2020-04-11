@@ -155,29 +155,33 @@ const moveBalloon = (direction) => {
 }
 
 const handleKeyDown = (e) => {
-    switch (e.keyCode) {
-        case 37:
-            moveBalloon('left');
-            render();
-            break;
-        case 39:
-            moveBalloon('right');
-            render();
-            break;
-        case 38:
-            moveBalloon('up');
-            render();
-            break;
-        case 40:
-            moveBalloon('down');
-            render();
-            break;
-        default:
-            break;
+    // switch (e.keyCode) {
+    //     case 37:
+    //         moveBalloon('left');
+    //         render();
+    //         break;
+    //     case 39:
+    //         moveBalloon('right');
+    //         render();
+    //         break;
+    //     case 38:
+    //         moveBalloon('up');
+    //         render();
+    //         break;
+    //     case 40:
+    //         moveBalloon('down');
+    //         render();
+    //         break;
+    //     default:
+    //         break;
+    // }
+    for (const shape in wholeBalloon) {
+        wholeBalloon[shape].translateX(2);
+        render();
     }
 }
 
-// window.addEventListener('keydown', (e) => handleKeyDown(e));
+window.addEventListener('keydown', (e) => handleKeyDown(e));
 
 
 // RANOM HELPER FUCNTIONS
