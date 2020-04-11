@@ -67,7 +67,7 @@ const addShape = () => {
     scene.add(mesh);
 }
 
-let basket, balloonBottom, balloonTop;
+let basket, balloonBottom, balloonTop, wholeBalloon;
 
 const createLathe = () => {
     var points = [];
@@ -75,18 +75,27 @@ const createLathe = () => {
         points.push(new THREE.Vector2(Math.sin(i * 0.2) * 10 + 5, (i - 5) * 2));
     }
     var geometry = new THREE.LatheGeometry(points, 29, 0, 6.3);
-    var material = new THREE.MeshLambertMaterial({ color: 0xf0f8ff });
+    // const balloonTexture = new THREE.TextureLoader().load('blue-waves.jpg');
+    // const material = new THREE.MeshLambertMaterial({ map: balloonTexture });
+    const material = new THREE.MeshLambertMaterial({ color: 0x001331 });
     return new THREE.Mesh(geometry, material);
 }
 
 const initBalloon = () => {
-    let basketGeo = new THREE.BoxGeometry(10, 10, 10),
+    let basketGeo = new THREE.BoxGeometry(7, 7, 7),
         balloonTopGeo = new THREE.SphereGeometry(16, 32, 32);
 
     const material = new THREE.MeshLambertMaterial({ color: 0xf0f8ff });
 
-    basket = new THREE.Mesh(basketGeo, material);
-    balloonTop = new THREE.Mesh(balloonTopGeo, material);
+
+    const balloonTexture = new THREE.TextureLoader().load('blue-waves.jpg');
+    const balloonMaterial = new THREE.MeshLambertMaterial({ map: balloonTexture });
+
+    const basketTexture = new THREE.TextureLoader().load('wicker.jpg');
+    const basketMaterial = new THREE.MeshLambertMaterial({ map: basketTexture });
+
+    basket = new THREE.Mesh(basketGeo, basketMaterial);
+    balloonTop = new THREE.Mesh(balloonTopGeo, balloonMaterial);
     balloonBottom = createLathe();
 
     // balloonBottom.scale.x = 0.8;
@@ -94,11 +103,18 @@ const initBalloon = () => {
     // balloonBottom.scale.z = 0.8;
     // balloonBottom.position.y -= 3;
 
-    balloonTop.position.y += 8.5;
+    const topExtra = 8.5;
 
-    // scene.add(basket);
+    balloonTop.position.y += 18.5;
+    balloonBottom.position.y += 10;
+    basket.position.y -= 10;
+
+
+    scene.add(basket);
     scene.add(balloonBottom);
     scene.add(balloonTop);
+
+    wholeBalloon = { balloonBottom, balloonTop, basket };
 }
 
 // RANOM HELPER FUCNTIONS
