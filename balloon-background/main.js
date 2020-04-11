@@ -1,7 +1,5 @@
 // import Balloon from './balloon';
 
-
-
 let renderer, camera, controls, scene, width = window.innerWidth, height = window.innerHeight;
 
 const init = () => {
@@ -42,7 +40,6 @@ const init = () => {
     scene.add(lightTwo);
 
     window.addEventListener('resize', handleResize, false);
-
 }
 
 const animate = () => {
@@ -61,7 +58,7 @@ const handleResize = () => {
 
 const addBalloon = () => {
 
-    let myBalloon = new Balloon();
+    let myBalloon = new ZAxisBalloon();
     myBalloon.init();
     myBalloon.setStart();
 
@@ -79,9 +76,20 @@ class Balloon {
     balloonTop;
     balloonBottom;
     basket;
+    startPositionX;
+    startPositionZ;
+    directionX;
+    directionZ;
+    xSpeed;
+    ySpeed;
+
+    topExtra = 22.5;
+    bottomExtra = 16;
+    basketExtra = 0;
 
     constructor() {
-
+        this.xSpeed = helpers(0.05, 0.15);
+        this.zSpeed = helpers(0.02, 0.03);
     }
 
     init = () => {
@@ -99,13 +107,6 @@ class Balloon {
         this.basket = new THREE.Mesh(basketGeo, basketMaterial);
         this.balloonTop = new THREE.Mesh(balloonTopGeo, balloonMaterial);
         this.balloonBottom = this.createLathe();
-
-        const topExtra = 8.5;
-
-        this.balloonTop.position.y += 42.5;
-        this.balloonBottom.position.y += 36;
-        this.basket.position.y += 20;
-
         this.wholeBalloon = { balloonBottom: this.balloonBottom, balloonTop: this.balloonTop, basket: this.basket };
     }
 
@@ -123,61 +124,80 @@ class Balloon {
         switch (direction) {
             case 'left':
                 for (const shape in this.wholeBalloon) {
-                    this.wholeBalloon[shape].translateX(-0.2);
+                    this.wholeBalloon[shape].translateX(-this.xSpeed);
                 }
                 break;
 
             case 'right':
                 for (const shape in this.wholeBalloon) {
-                    this.wholeBalloon[shape].translateX(0.2);
+                    this.wholeBalloon[shape].translateX(this.xSpeed);
                 }
                 break;
-            case 'up':
+            case 'forward':
                 for (const shape in this.wholeBalloon) {
-                    this.wholeBalloon[shape].translateY(0.2);
+                    this.wholeBalloon[shape].translateZ(0.025);
                 }
                 break;
-            case 'down':
+            case 'back':
                 for (const shape in this.wholeBalloon) {
-                    this.wholeBalloon[shape].translateY(0.2);
+                    this.wholeBalloon[shape].translateZ(-0.025);
                 }
                 break;
             default:
                 break;
-
-        }
-    }
-
-    setStart = () => {
-        for (const shape in this.wholeBalloon) {
-            this.wholeBalloon[shape].scale.set(0.75, 0.75, 0.75);
-            this.wholeBalloon[shape].position.x -= 150;
-
-            this.animate();
         }
     }
 
     animate = () => {
         if (this.wholeBalloon.balloonTop.position.x < 400) {
             this.moveBalloon('right');
-            setTimeout(this.animate, 20)
-            for (const shape in this.wholeBalloon) {
-                this.wholeBalloon[shape].translateZ(-0.05);
-            }
-        }
-        else {
-            for (const shape in this.wholeBalloon) {
-                this.wholeBalloon[shape].translateX(-500);
-            }
+            this.moveBalloon('back');
+            setTimeout(this.animate, 40)
         }
     }
 }
 
-// let basket, balloonBottom, balloonTop, wholeBalloon;
+class ZAxisBalloon extends Balloon {
+    constructor() {
+        super();
+        helpers(1, 10) > 5 ? this.directionZ = 'back' : this.directionZ = 'forward';
+        helpers(1, 10) > 5 ? this.directionX = 'left' : this.directionX = 'right';
+    }
 
+    setStart() {
+        const randomOffsetY = helpers(-20, 20);
+
+        this.balloonTop.position.y = this.topExtra + randomOffsetY;
+        this.balloonBottom.position.y = this.bottomExtra + randomOffsetY;
+        this.basket.position.y += this.basketExtra + randomOffsetY;
+
+
+        for (const shape in this.wholeBalloon) {
+            this.wholeBalloon[shape].scale.set(0.75, 0.75, 0.75);
+            this.directionX === 'right' ? this.wholeBalloon[shape].position.x -= 200 : this.wholeBalloon[shape].position.x += 200;
+            this.animate();
+        }
+    }
+
+    animate = () => {
+        this.moveBalloon(this.directionX);
+        this.moveBalloon(this.directionZ);
+        setTimeout(this.animate, 20);
+
+        if (this.balloonTop.position.x > 400 || this.balloonTop.position.x < -400) {
+            scene.remove(this.balloonTop);
+            scene.remove(this.balloonBottom);
+            scene.remove(this.basket);
+        }
+    }
+}
 
 // RANOM HELPER FUCNTIONS
 const helpers = (min, max) => Math.random() * (max - min) + min;
+
+// SETUP FUNCTION CALLS
+
 init();
 animate();
 addBalloon();
+setInterval(addBalloon, helpers(3000, 12000));
