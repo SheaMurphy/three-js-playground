@@ -52,7 +52,7 @@ const animate = () => {
 
 const handleResize = () => {
     camera.aspect = window.innerWidth / window.innerHeight;
-    // camera.updateProjectionMatrix();
+    camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
     controls.handleResize();
 }

@@ -23,7 +23,7 @@ const init = () => {
 
     // CONTROLS
     controls = new THREE.TrackballControls(camera, renderer.domElement);
-    controls.addEventListener('change', render);
+    controls.addEventListener('change', animate);
 
     // SCENE
     scene = new THREE.Scene();
@@ -41,12 +41,9 @@ const init = () => {
 
 }
 
-const render = () => {
-    renderer.render(scene, camera);
-}
-
 const animate = () => {
     requestAnimationFrame(animate);
+    renderer.render(scene, camera);
     controls.update();
 }
 
@@ -124,7 +121,7 @@ const initBalloon = () => {
         scene.add(basket);
         scene.add(balloonBottom);
         scene.add(balloonTop);
-        render();
+        animate();
     }, 200)
 
 
@@ -136,26 +133,22 @@ const moveBalloon = (direction) => {
             for (const shape in wholeBalloon) {
                 wholeBalloon[shape].translateX(-0.2);
             }
-            render();
             break;
 
         case 'right':
             for (const shape in wholeBalloon) {
                 wholeBalloon[shape].translateX(0.2);
             }
-            render();
             break;
         case 'up':
             for (const shape in wholeBalloon) {
                 wholeBalloon[shape].translateY(0.2);
             }
-            render();
             break;
         case 'down':
             for (const shape in wholeBalloon) {
                 wholeBalloon[shape].translateY(0.2);
             }
-            render();
             break;
         default:
             break;
@@ -182,19 +175,19 @@ const handleKeyDown = (e) => {
     switch (e.keyCode) {
         case 37:
             moveBalloon('left');
-            render();
+            // render();
             break;
         case 39:
             moveBalloon('right');
-            render();
+            // render();
             break;
         case 38:
             moveBalloon('up');
-            render();
+            // render();
             break;
         case 40:
             moveBalloon('down');
-            render();
+            // render();
             break;
         default:
             break;
@@ -209,4 +202,3 @@ const helpers = (min, max) => Math.random() * (max - min) + min;
 init();
 animate();
 initBalloon();
-render();
