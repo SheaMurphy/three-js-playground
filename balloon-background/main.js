@@ -106,18 +106,17 @@ const initBalloon = () => {
 
     const topExtra = 8.5;
 
-    balloonTop.position.y += 18.5;
-    balloonBottom.position.y += 12;
-    basket.position.y -= 4;
+    balloonTop.position.y += 42.5;
+    balloonBottom.position.y += 36;
+    basket.position.y += 20;
 
 
     wholeBalloon = { balloonBottom, balloonTop, basket };
 
     for (const shape in wholeBalloon) {
         wholeBalloon[shape].scale.set(0.75, 0.75, 0.75);
-
-        // wholeBalloon[shape].position.x -= 85;
-
+        wholeBalloon[shape].position.x -= 150;
+        animateBalloon();
     }
 
     setTimeout(() => {
@@ -134,26 +133,26 @@ const moveBalloon = (direction) => {
     switch (direction) {
         case 'left':
             for (const shape in wholeBalloon) {
-                wholeBalloon[shape].position.x -= 1;
+                wholeBalloon[shape].position.x -= 0.2;
             }
             render();
             break;
 
         case 'right':
             for (const shape in wholeBalloon) {
-                wholeBalloon[shape].position.x += 1;
+                wholeBalloon[shape].position.x += 0.2;
             }
             render();
             break;
         case 'up':
             for (const shape in wholeBalloon) {
-                wholeBalloon[shape].position.y += 1;
+                wholeBalloon[shape].position.y += 0.2;
             }
             render();
             break;
         case 'down':
             for (const shape in wholeBalloon) {
-                wholeBalloon[shape].position.y -= 1;
+                wholeBalloon[shape].position.y -= 0.2;
             }
             render();
             break;
@@ -163,35 +162,42 @@ const moveBalloon = (direction) => {
     }
 }
 
+const animateBalloon = () => {
+    if (wholeBalloon.balloonTop.position.x < 200) {
+        moveBalloon('right');
+        setTimeout(animateBalloon, 50)
+    }
+}
+
 const handleKeyDown = (e) => {
-    console.log(e);
-
-    console.log(e.keyCode);
-
     switch (e.keyCode) {
         case 37:
             moveBalloon('left');
+            render();
             break;
         case 39:
             moveBalloon('right');
+            render();
             break;
         case 38:
             moveBalloon('up');
+            render();
             break;
         case 40:
             moveBalloon('down');
+            render();
             break;
         default:
             break;
     }
 }
+
+window.addEventListener('keydown', (e) => handleKeyDown(e));
+
 
 // RANOM HELPER FUCNTIONS
 const helpers = (min, max) => Math.random() * (max - min) + min;
 init();
 animate();
 initBalloon();
-// addShape();
 render();
-
-window.addEventListener('keydown', (e) => handleKeyDown(e));
