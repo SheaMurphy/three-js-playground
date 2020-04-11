@@ -57,17 +57,21 @@ const handleResize = () => {
 
 
 const addBalloon = () => {
+    console.log(scene.children.length);
 
-    let myBalloon = new ZAxisBalloon();
-    myBalloon.init();
-    myBalloon.setStart();
+    if (scene.children.length < 15) {
+        console.log('adding');
+        let myBalloon = new ZAxisBalloon();
+        myBalloon.init();
+        myBalloon.setStart();
 
-    setTimeout(() => {
-        scene.add(myBalloon.basket);
-        scene.add(myBalloon.balloonBottom);
-        scene.add(myBalloon.balloonTop);
-        animate();
-    }, 200)
+        setTimeout(() => {
+            scene.add(myBalloon.basket);
+            scene.add(myBalloon.balloonBottom);
+            scene.add(myBalloon.balloonTop);
+            animate();
+        }, 200)
+    }
 }
 
 class Balloon {
@@ -89,7 +93,7 @@ class Balloon {
 
     constructor() {
         this.xSpeed = helpers(0.05, 0.15);
-        this.zSpeed = helpers(0.02, 0.03);
+        this.zSpeed = helpers(0.02, 0.035);
     }
 
     init = () => {
