@@ -21,7 +21,7 @@ const init = () => {
     camera.position.z = 100;
 
     // CONTROLS
-    controls = new THREE.TrackBallControls(camera);
+    controls = new THREE.TrackballControls(camera, renderer.domElement);
     controls.addEventListener('change', render);
 
     // SCENE
@@ -44,18 +44,28 @@ const render = () => {
     renderer.render(scene, camera);
 }
 
-const animation = () => {
+const animate = () => {
     requestAnimationFrame(animate);
     controls.update();
 }
 
 const handleResize = () => {
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-    renderer.setSize(width, height);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    // camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
     controls.handleResize();
+}
+
+const addShape = () => {
+    let geometry = new THREE.BoxGeometry(10, 10, 10),
+        material = new THREE.MeshNormalMaterial({ color: 0xff00ff });
+
+    let mesh = new THREE.Mesh(geometry, material);
+
+    scene.add(mesh);
 }
 
 init();
 animate();
+addShape();
 render();
