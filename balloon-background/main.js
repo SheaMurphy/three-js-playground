@@ -116,6 +116,7 @@ const initBalloon = () => {
     for (const shape in wholeBalloon) {
         wholeBalloon[shape].scale.set(0.75, 0.75, 0.75);
         wholeBalloon[shape].position.x -= 150;
+
         animateBalloon();
     }
 
@@ -163,9 +164,12 @@ const moveBalloon = (direction) => {
 }
 
 const animateBalloon = () => {
-    if (wholeBalloon.balloonTop.position.x < 200) {
+    if (wholeBalloon.balloonTop.position.x < 400) {
         moveBalloon('right');
-        setTimeout(animateBalloon, 50)
+        setTimeout(animateBalloon, 20)
+        for (const shape in wholeBalloon) {
+            wholeBalloon[shape].position.z -= 0.05;
+        }
     }
 }
 
@@ -192,7 +196,7 @@ const handleKeyDown = (e) => {
     }
 }
 
-window.addEventListener('keydown', (e) => handleKeyDown(e));
+// window.addEventListener('keydown', (e) => handleKeyDown(e));
 
 
 // RANOM HELPER FUCNTIONS

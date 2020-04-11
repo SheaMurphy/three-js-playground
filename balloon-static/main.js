@@ -5,10 +5,10 @@ const init = () => {
     // RENDERER
     renderer = new THREE.WebGLRenderer({
         canvas: document.getElementById('canvas'),
-        antialias: true,
-        alpha: true
+        antialias: true
     });
-    // renderer.setClearColor(0xe5e5e5);
+
+    renderer.setClearColor(0xe5e5e5);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(width, height);
 
@@ -106,18 +106,12 @@ const initBalloon = () => {
 
     const topExtra = 8.5;
 
-    balloonTop.position.y += 42.5;
-    balloonBottom.position.y += 36;
-    basket.position.y += 20;
+    balloonTop.position.y += 18.5;
+    balloonBottom.position.y += 10;
+    basket.position.y -= 12;
 
 
     wholeBalloon = { balloonBottom, balloonTop, basket };
-
-    for (const shape in wholeBalloon) {
-        wholeBalloon[shape].scale.set(0.75, 0.75, 0.75);
-        wholeBalloon[shape].position.x -= 150;
-        animateBalloon();
-    }
 
     setTimeout(() => {
         scene.add(basket);
@@ -125,8 +119,6 @@ const initBalloon = () => {
         scene.add(balloonTop);
         render();
     }, 200)
-
-
 }
 
 const moveBalloon = (direction) => {
@@ -162,13 +154,6 @@ const moveBalloon = (direction) => {
     }
 }
 
-const animateBalloon = () => {
-    if (wholeBalloon.balloonTop.position.x < 200) {
-        moveBalloon('right');
-        setTimeout(animateBalloon, 50)
-    }
-}
-
 const handleKeyDown = (e) => {
     switch (e.keyCode) {
         case 37:
@@ -192,7 +177,7 @@ const handleKeyDown = (e) => {
     }
 }
 
-window.addEventListener('keydown', (e) => handleKeyDown(e));
+// window.addEventListener('keydown', (e) => handleKeyDown(e));
 
 
 // RANOM HELPER FUCNTIONS
