@@ -117,6 +117,61 @@ const initBalloon = () => {
     wholeBalloon = { balloonBottom, balloonTop, basket };
 }
 
+const moveBalloon = (direction) => {
+    switch (direction) {
+        case 'left':
+            for (const shape in wholeBalloon) {
+                wholeBalloon[shape].position.x -= 1;
+            }
+            break;
+
+        case 'right':
+            for (const shape in wholeBalloon) {
+                wholeBalloon[shape].position.x += 1;
+            }
+            break;
+        case 'up':
+            for (const shape in wholeBalloon) {
+                wholeBalloon[shape].position.y += 1;
+            }
+            break;
+        case 'down':
+            for (const shape in wholeBalloon) {
+                wholeBalloon[shape].position.x -= 1;
+            }
+            break;
+
+
+
+        default:
+            break;
+
+    }
+}
+
+const handleKeyDown = (e) => {
+    console.log(e);
+
+    console.log(e.keyCode);
+
+    switch (e.keyCode) {
+        case 37:
+            moveBalloon('left');
+            break;
+        case 39:
+            moveBalloon('right');
+            break;
+        case 38:
+            moveBalloon('up');
+            break;
+        case 40:
+            moveBalloon('down');
+            break;
+        default:
+            break;
+    }
+}
+
 // RANOM HELPER FUCNTIONS
 const helpers = (min, max) => Math.random() * (max - min) + min;
 init();
@@ -124,3 +179,5 @@ animate();
 initBalloon();
 // addShape();
 render();
+
+window.addEventListener('keydown', (e) => handleKeyDown(e));
