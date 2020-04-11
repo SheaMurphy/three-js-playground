@@ -164,11 +164,11 @@ const animateBalloon = () => {
             wholeBalloon[shape].translateZ(-0.05);
         }
     }
-    // else {
-    //     for (const shape in wholeBalloon) {
-    //         wholeBalloon[shape].translateX(-500);
-    //     }
-    // }
+    else {
+        for (const shape in wholeBalloon) {
+            wholeBalloon[shape].translateX(-500);
+        }
+    }
 }
 
 const handleKeyDown = (e) => {
