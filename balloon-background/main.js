@@ -55,22 +55,6 @@ const handleResize = () => {
     controls.handleResize();
 }
 
-
-const addBalloon = () => {
-    if (scene.children.length < 15) {
-        let myBalloon = new ZAxisBalloon();
-        myBalloon.init();
-        myBalloon.setStart();
-
-        setTimeout(() => {
-            scene.add(myBalloon.basket);
-            scene.add(myBalloon.balloonBottom);
-            scene.add(myBalloon.balloonTop);
-            animate();
-        }, 200)
-    }
-}
-
 class Balloon {
 
     wholeBalloon;
@@ -91,6 +75,8 @@ class Balloon {
     constructor() {
         this.xSpeed = randomFloatGenerator(0.05, 0.15);
         this.zSpeed = randomFloatGenerator(0.02, 0.035);
+        randomFloatGenerator(1, 10) > 5 ? this.directionZ = 'back' : this.directionZ = 'forward';
+        randomFloatGenerator(1, 10) > 5 ? this.directionX = 'left' : this.directionX = 'right';
     }
 
     init = () => {
@@ -156,22 +142,6 @@ class Balloon {
         }
     }
 
-    animate = () => {
-        if (this.wholeBalloon.balloonTop.position.x < 400) {
-            this.moveBalloon('right');
-            this.moveBalloon('back');
-            setTimeout(this.animate, 40)
-        }
-    }
-}
-
-class ZAxisBalloon extends Balloon {
-    constructor() {
-        super();
-        randomFloatGenerator(1, 10) > 5 ? this.directionZ = 'back' : this.directionZ = 'forward';
-        randomFloatGenerator(1, 10) > 5 ? this.directionX = 'left' : this.directionX = 'right';
-    }
-
     setStart() {
         const randomOffsetY = randomFloatGenerator(-20, 20);
         this.balloonTop.position.y = this.topExtra + randomOffsetY;
@@ -196,6 +166,21 @@ class ZAxisBalloon extends Balloon {
             this.moveBalloon(this.directionZ);
             setTimeout(this.animate, 20);
         }
+    }
+}
+
+const addBalloon = () => {
+    if (scene.children.length < 15) {
+        let myBalloon = new Balloon();
+        myBalloon.init();
+        myBalloon.setStart();
+
+        setTimeout(() => {
+            scene.add(myBalloon.basket);
+            scene.add(myBalloon.balloonBottom);
+            scene.add(myBalloon.balloonTop);
+            animate();
+        }, 200)
     }
 }
 
