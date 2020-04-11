@@ -73,8 +73,8 @@ class Balloon {
     basketExtra = 0;
 
     constructor() {
-        this.xSpeed = randomFloatGenerator(0.05, 0.15);
-        this.zSpeed = randomFloatGenerator(0.02, 0.035);
+        this.xSpeed = randomFloatGenerator(0.075, 0.175);
+        this.zSpeed = randomFloatGenerator(0.025, 0.040);
         randomFloatGenerator(1, 10) > 5 ? this.directionZ = 'back' : this.directionZ = 'forward';
         randomFloatGenerator(1, 10) > 5 ? this.directionX = 'left' : this.directionX = 'right';
     }
@@ -129,12 +129,12 @@ class Balloon {
                 break;
             case 'forward':
                 for (const shape in this.wholeBalloon) {
-                    this.wholeBalloon[shape].translateZ(0.025);
+                    this.wholeBalloon[shape].translateZ(this.zSpeed);
                 }
                 break;
             case 'back':
                 for (const shape in this.wholeBalloon) {
-                    this.wholeBalloon[shape].translateZ(-0.025);
+                    this.wholeBalloon[shape].translateZ(-this.zSpeed);
                 }
                 break;
             default:
@@ -164,7 +164,7 @@ class Balloon {
         } else {
             this.moveBalloon(this.directionX);
             this.moveBalloon(this.directionZ);
-            setTimeout(this.animate, 20);
+            setTimeout(this.animate, 50);
         }
     }
 }
@@ -180,7 +180,7 @@ const addBalloon = () => {
             scene.add(myBalloon.balloonBottom);
             scene.add(myBalloon.balloonTop);
             animate();
-        }, 200)
+        }, 200);
     }
 }
 
