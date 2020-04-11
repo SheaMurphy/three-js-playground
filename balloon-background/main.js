@@ -57,10 +57,7 @@ const handleResize = () => {
 
 
 const addBalloon = () => {
-    console.log(scene.children.length);
-
     if (scene.children.length < 15) {
-        console.log('adding');
         let myBalloon = new ZAxisBalloon();
         myBalloon.init();
         myBalloon.setStart();
@@ -92,8 +89,8 @@ class Balloon {
     basketExtra = 0;
 
     constructor() {
-        this.xSpeed = helpers(0.05, 0.15);
-        this.zSpeed = helpers(0.02, 0.035);
+        this.xSpeed = randomFloatGenerator(0.05, 0.15);
+        this.zSpeed = randomFloatGenerator(0.02, 0.035);
     }
 
     init = () => {
@@ -102,7 +99,10 @@ class Balloon {
 
         // const material = new THREE.MeshLambertMaterial({ color: 0xf0f8ff });
 
-        const balloonTexture = new THREE.TextureLoader().load('blue-waves.jpg');
+        const images = ['air-balloon.jpg', 'polka-dot.jpg', 'stripes.jpg', 'wave.jpg', 'horizontal-stripes.png', 'blue-waves.jpg'];
+        const randomImage = images[randomIntegerGenerator(0, images.length)];
+
+        const balloonTexture = new THREE.TextureLoader().load(randomImage);
         const balloonMaterial = new THREE.MeshLambertMaterial({ map: balloonTexture });
 
         const basketTexture = new THREE.TextureLoader().load('wicker.jpg');
@@ -110,18 +110,22 @@ class Balloon {
 
         this.basket = new THREE.Mesh(basketGeo, basketMaterial);
         this.balloonTop = new THREE.Mesh(balloonTopGeo, balloonMaterial);
-        this.balloonBottom = this.createLathe();
+        this.balloonBottom = this.createLathe(randomImage);
         this.wholeBalloon = { balloonBottom: this.balloonBottom, balloonTop: this.balloonTop, basket: this.basket };
     }
 
-    createLathe = () => {
+    createLathe = (image) => {
         var points = [];
         for (var i = 0; i < 10; i++) {
             points.push(new THREE.Vector2(Math.sin(i * 0.2) * 10 + 5, (i - 5) * 2));
         }
         var geometry = new THREE.LatheGeometry(points, 29, 0, 6.3);
-        const material = new THREE.MeshLambertMaterial({ color: 0x001331 });
-        return new THREE.Mesh(geometry, material);
+        const balloonTexture = new THREE.TextureLoader().load(image);
+        let balloonMaterial = new THREE.MeshLambertMaterial({ map: balloonTexture });
+
+        if (image === 'blue-waves.jpg') balloonMaterial = new THREE.MeshLambertMaterial({ color: 0x001331 });
+
+        return new THREE.Mesh(geometry, balloonMaterial);
     }
 
     moveBalloon = (direction) => {
@@ -164,13 +168,12 @@ class Balloon {
 class ZAxisBalloon extends Balloon {
     constructor() {
         super();
-        helpers(1, 10) > 5 ? this.directionZ = 'back' : this.directionZ = 'forward';
-        helpers(1, 10) > 5 ? this.directionX = 'left' : this.directionX = 'right';
+        randomFloatGenerator(1, 10) > 5 ? this.directionZ = 'back' : this.directionZ = 'forward';
+        randomFloatGenerator(1, 10) > 5 ? this.directionX = 'left' : this.directionX = 'right';
     }
 
     setStart() {
-        const randomOffsetY = helpers(-20, 20);
-
+        const randomOffsetY = randomFloatGenerator(-20, 20);
         this.balloonTop.position.y = this.topExtra + randomOffsetY;
         this.balloonBottom.position.y = this.bottomExtra + randomOffsetY;
         this.basket.position.y += this.basketExtra + randomOffsetY;
@@ -184,24 +187,26 @@ class ZAxisBalloon extends Balloon {
     }
 
     animate = () => {
-        this.moveBalloon(this.directionX);
-        this.moveBalloon(this.directionZ);
-        setTimeout(this.animate, 20);
-
         if (this.balloonTop.position.x > 400 || this.balloonTop.position.x < -400) {
             scene.remove(this.balloonTop);
             scene.remove(this.balloonBottom);
             scene.remove(this.basket);
+        } else {
+            this.moveBalloon(this.directionX);
+            this.moveBalloon(this.directionZ);
+            setTimeout(this.animate, 20);
         }
     }
 }
 
 // RANOM HELPER FUCNTIONS
-const helpers = (min, max) => Math.random() * (max - min) + min;
+const randomFloatGenerator = (min, max) => Math.random() * (max - min) + min;
+const randomIntegerGenerator = (min, max) => Math.floor(Math.random() * (max - min) + min);
+
 
 // SETUP FUNCTION CALLS
 
 init();
 animate();
 addBalloon();
-setInterval(addBalloon, helpers(3000, 12000));
+setInterval(addBalloon, randomFloatGenerator(3000, 12000));
