@@ -219,6 +219,26 @@ const getKeep = () => {
     return keep;
 }
 
+const getGround = () => {
+    let geometry = new THREE.PlaneGeometry(350, 350);
+    let material = new THREE.MeshBasicMaterial({ color: 0x43ba07, side: THREE.DoubleSide });
+    let plane = new THREE.Mesh(geometry, material);
+    plane.position.y -= 27;
+    plane.rotation.x += 1.575;
+
+    let geometryTwo = new THREE.PlaneGeometry(145, 140);
+    let materialTwo = new THREE.MeshBasicMaterial({ color: 0x9c9b98, side: THREE.DoubleSide });
+    let planeTwo = new THREE.Mesh(geometryTwo, materialTwo);
+    planeTwo.position.y -= 25;
+    planeTwo.rotation.x += 1.575;
+
+    let floor = new THREE.Group();
+    floor.add(plane);
+    floor.add(planeTwo);
+
+    return floor;
+}
+
 const buildCastle = () => {
 
     let castle = new THREE.Group();
@@ -237,6 +257,9 @@ const buildCastle = () => {
 
     let keep = getKeep();
     scene.add(keep);
+
+    let ground = getGround();
+    scene.add(ground);
 
 }
 
