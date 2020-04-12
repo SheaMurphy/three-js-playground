@@ -18,8 +18,11 @@ const init = () => {
         1,
         1000
     );
+    // camera.position.z = 50;
+    // camera.position.y = 325;
+
     camera.position.z = 150;
-    camera.position.y = 125;
+    camera.position.y = 55;
 
     // CONTROLS
     controls = new THREE.TrackballControls(camera, renderer.domElement);
@@ -149,7 +152,7 @@ const getWalls = () => {
 const getTower = () => {
     let tower = new THREE.Group();
 
-    let cylinderGeo = new THREE.CylinderGeometry(20, 20, 70, 64, 64),
+    let cylinderGeo = new THREE.CylinderGeometry(20, 20, 70, 20, 20),
         cylinderMat = new THREE.MeshLambertMaterial({ color: 0xb0b0b0 }),
         cylinderMesh = new THREE.Mesh(cylinderGeo, cylinderMat);
 
@@ -191,14 +194,53 @@ const getTowers = () => {
     return towers;
 }
 
+const getKeep = () => {
+    let keep = new THREE.Group();
+
+    let cylinderGeo = new THREE.CylinderGeometry(30, 30, 30, 8, 8),
+        cylinderMat = new THREE.MeshLambertMaterial({ color: 0xb0b0b0 }),
+        cylinderMesh = new THREE.Mesh(cylinderGeo, cylinderMat);
+
+    let roofGeo = new THREE.ConeGeometry(35, 35, 10, 10),
+        roofMat = new THREE.MeshLambertMaterial({ color: 0xd65b42 }),
+        roofMesh = new THREE.Mesh(roofGeo, roofMat);
+
+    roofMesh.position.y += 32;
+
+    keep.add(cylinderMesh);
+    keep.add(roofMesh);
+
+    keep.position.y -= 10;
+
+
+    // let baseGeo = new THREE.CylinderGeometry(25, 25, 60, 8, 8),
+    //     baseMat = new THREE.MeshLambertMaterial({ color: 0xb0b0b0 }),
+    //     baseMesh = new THREE.Mesh(baseGeo, baseMat);
+    // baseMesh.position.y += 10;
+
+    // keep.add(baseMesh);
+
+    return keep;
+}
+
 const buildCastle = () => {
+
+    let castle = new THREE.Group();
 
     let walls = getWalls();
     walls.position.x -= 50;
-    scene.add(walls);
+    castle.add(walls);
 
     let towers = getTowers();
-    scene.add(towers);
+    castle.add(towers);
+
+    castle.position.x += 15;
+    castle.position.z += 50;
+
+    scene.add(castle);
+
+    let keep = getKeep();
+    scene.add(keep);
 
 }
 
