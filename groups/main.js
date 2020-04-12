@@ -107,7 +107,9 @@ const getWall = (numBricks) => {
     let row = getRow();
 
     for (let i = 0; i < 5; i++) {
+        const isEvenRow = i % 2 == 0;
         row = getRow(numBricks, i);
+        isEvenRow ? row.position.x -= 5 : row.position.x += 5;
         wall.add(row);
     }
 
@@ -153,7 +155,7 @@ const getTower = () => {
     let tower = new THREE.Group();
 
     let cylinderGeo = new THREE.CylinderGeometry(20, 20, 70, 20, 20),
-        cylinderMat = new THREE.MeshLambertMaterial({ color: 0xb0b0b0 }),
+        cylinderMat = new THREE.MeshLambertMaterial({ color: 0x9c9b98 }),
         cylinderMesh = new THREE.Mesh(cylinderGeo, cylinderMat);
 
     let roofGeo = new THREE.ConeGeometry(25, 25, 64, 64),
@@ -172,23 +174,23 @@ const getTowers = () => {
     let towers = new THREE.Group();
 
     let tower = getTower();
-    tower.position.x += 55;
-    tower.position.z += 7;
+    tower.position.x += 60;
+    tower.position.z += 10;
     towers.add(tower);
 
     let towerTwo = getTower();
-    towerTwo.position.x -= 90;
-    towerTwo.position.z += 5;
+    towerTwo.position.x -= 95;
+    towerTwo.position.z += 8;
     towers.add(towerTwo);
 
     let towerThree = getTower();
-    towerThree.position.x -= 85;
-    towerThree.position.z -= 115;
+    towerThree.position.x -= 90;
+    towerThree.position.z -= 118;
     towers.add(towerThree);
 
     let towerFour = getTower();
-    towerFour.position.x += 63
-    towerFour.position.z -= 112;
+    towerFour.position.x += 68;
+    towerFour.position.z -= 116;
     towers.add(towerFour);
 
     return towers;
@@ -198,7 +200,7 @@ const getKeep = () => {
     let keep = new THREE.Group();
 
     let cylinderGeo = new THREE.CylinderGeometry(30, 30, 30, 8, 8),
-        cylinderMat = new THREE.MeshLambertMaterial({ color: 0xb0b0b0 }),
+        cylinderMat = new THREE.MeshLambertMaterial({ color: 0x9c9b98 }),
         cylinderMesh = new THREE.Mesh(cylinderGeo, cylinderMat);
 
     let roofGeo = new THREE.ConeGeometry(35, 35, 10, 10),
@@ -211,14 +213,6 @@ const getKeep = () => {
     keep.add(roofMesh);
 
     keep.position.y -= 10;
-
-
-    // let baseGeo = new THREE.CylinderGeometry(25, 25, 60, 8, 8),
-    //     baseMat = new THREE.MeshLambertMaterial({ color: 0xb0b0b0 }),
-    //     baseMesh = new THREE.Mesh(baseGeo, baseMat);
-    // baseMesh.position.y += 10;
-
-    // keep.add(baseMesh);
 
     return keep;
 }
