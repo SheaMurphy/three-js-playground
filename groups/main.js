@@ -21,8 +21,10 @@ const init = () => {
     // camera.position.z = 50;
     // camera.position.y = 325;
 
-    camera.position.z = 150;
-    camera.position.y = 55;
+    camera.position.z = 250;
+    camera.position.y = 125;
+    camera.position.x = -155;
+
 
     // CONTROLS
     controls = new THREE.TrackballControls(camera, renderer.domElement);
